@@ -1,1 +1,1464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WCNOSM - Campus Network Operation & Security Management</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
+        :root {
+            --primary: #F28C28;
+            --secondary: #E88C2D;
+            --body: #FCF5EC;
+            --text: #1D1D1B;
+            --secondary-dark: #9F4B14;
+            --white: #ffffff;
+            --light-gray: #f5f5f5;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text);
+            background-color: var(--body);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: var(--white);
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            letter-spacing: -1px;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: var(--white);
+            text-decoration: none;
+            transition: opacity 0.3s ease;
+            font-weight: 500;
+        }
+
+        .nav-links a:hover {
+            opacity: 0.8;
+        }
+
+        .mobile-menu-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 4px;
+        }
+
+        .mobile-menu-toggle span {
+            width: 25px;
+            height: 3px;
+            background: var(--white);
+            transition: 0.3s;
+        }
+
+        .mobile-menu-toggle.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+
+        .mobile-menu-toggle.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .mobile-menu-toggle.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -6px);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: var(--white);
+            padding: 120px 0 80px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 320"><path fill="rgba(255,255,255,0.1)" d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,122.7C672,117,768,139,864,149.3C960,160,1056,160,1152,149.3L1200,139L1200,320L1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>') bottom center/cover no-repeat;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .hero .subtitle {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            opacity: 0.9;
+            font-weight: 600;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: var(--white);
+            color: var(--primary);
+            padding: 15px 30px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+        }
+
+        /* Logos Section */
+        .logos {
+            background: var(--white);
+            padding: 60px 0;
+        }
+
+        .logos-grid {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 4rem;
+            flex-wrap: wrap;
+        }
+
+        .logo-item {
+            max-width: 200px;
+            opacity: 0.8;
+            transition: all 0.3s ease;
+            filter: grayscale(0.3);
+        }
+
+        .logo-item:hover {
+            opacity: 1;
+            transform: translateY(-5px);
+            filter: grayscale(0);
+        }
+
+        .logo-item img {
+            width: 100%;
+            height: auto;
+            max-height: 80px;
+            object-fit: contain;
+        }
+
+        /* Sections */
+        .section {
+            padding: 80px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 3rem;
+            font-weight: 700;
+        }
+
+        /* About Section */
+        .about {
+            background: var(--white);
+        }
+
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .about-text {
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        .highlight {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: var(--white);
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(242, 140, 40, 0.2);
+        }
+
+        /* Workshop Focus */
+        .workshop-focus {
+            background: var(--body);
+            text-align: center;
+        }
+
+        .workshop-card {
+            background: var(--white);
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            max-width: 800px;
+            margin: 0 auto;
+            border: 3px solid var(--primary);
+        }
+
+        .workshop-icon {
+            font-size: 5rem;
+            margin-bottom: 1rem;
+            animation: networkPulse 3s ease-in-out infinite;
+        }
+
+        @keyframes networkPulse {
+            0%, 100% { 
+                transform: scale(1) rotate(0deg);
+                color: var(--primary);
+            }
+            50% { 
+                transform: scale(1.1) rotate(5deg);
+                color: var(--secondary);
+            }
+        }
+
+        .workshop-card h3 {
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .workshop-details {
+            font-size: 1.1rem;
+            margin-top: 1rem;
+            color: var(--secondary-dark);
+            font-weight: 600;
+        }
+
+        /* Stats Section */
+        .stats {
+            background: var(--white);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .stat-card {
+            background: var(--body);
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+            border-left: 4px solid var(--primary);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 1.1rem;
+            color: var(--text);
+            font-weight: 500;
+        }
+
+        /* Activities Section */
+        .activities {
+            background: var(--body);
+        }
+
+        .activities-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .activity-card {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+            border-left: 4px solid var(--primary);
+        }
+
+        .activity-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(242, 140, 40, 0.15);
+        }
+
+        .activity-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .activity-card h3 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        /* Technical Topics */
+        .topics {
+            background: var(--white);
+        }
+
+        .topics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .topic-card {
+            background: var(--body);
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            border: 2px solid var(--secondary);
+        }
+
+        .topic-card:hover {
+            background: var(--primary);
+            color: var(--white);
+            transform: translateY(-5px);
+            border-color: var(--primary);
+        }
+
+        .topic-icon {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            transition: color 0.3s ease;
+        }
+
+        .topic-card:hover .topic-icon {
+            color: var(--white);
+        }
+
+        /* Beneficiaries Section */
+        .beneficiaries {
+            background: var(--body);
+        }
+
+        .beneficiaries-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 4rem;
+            align-items: start;
+        }
+
+        .beneficiaries-info {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .beneficiaries-info h3 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .countries-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .country-card {
+            background: var(--white);
+            padding: 1.5rem;
+            border-radius: 10px;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 2px solid var(--primary);
+            box-shadow: 0 3px 15px rgba(0,0,0,0.1);
+        }
+
+        .country-card:hover {
+            background: var(--primary);
+            color: var(--white);
+            transform: translateY(-3px);
+        }
+
+        .country-flag {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .country-name {
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        /* Partners Section */
+        .partners {
+            background: var(--white);
+        }
+
+        .partners-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            text-align: center;
+        }
+
+        .partner-card {
+            padding: 2rem;
+            background: var(--body);
+            border-radius: 15px;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .partner-card:hover {
+            background: var(--primary);
+            color: var(--white);
+            transform: translateY(-5px);
+        }
+
+        .partner-card h4 {
+            margin-bottom: 0.5rem;
+            font-size: 1.2rem;
+        }
+
+        /* Outcomes Section */
+        .outcomes {
+            background: var(--body);
+        }
+
+        .outcomes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .outcome-card {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+            border-top: 4px solid var(--primary);
+        }
+
+        .outcome-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .outcome-icon {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .outcome-card h3 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+
+        /* SDGs Section */
+        .sdgs {
+            background: var(--white);
+        }
+
+        .sdg-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .sdg-card {
+            background: var(--body);
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .sdg-card:hover {
+            transform: translateY(-5px);
+            background: var(--white);
+        }
+
+        .sdg-number {
+            display: inline-block;
+            width: 50px;
+            height: 50px;
+            background: var(--primary);
+            color: var(--white);
+            border-radius: 50%;
+            line-height: 50px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--secondary-dark);
+            color: var(--white);
+            text-align: center;
+            padding: 3rem 0;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 1rem;
+            color: var(--secondary);
+        }
+
+        .footer-section a {
+            color: var(--white);
+            text-decoration: none;
+            display: block;
+            margin-bottom: 0.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section a:hover {
+            color: var(--secondary);
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .container {
+                padding: 0 15px;
+            }
+            
+            .logos-grid {
+                gap: 3rem;
+            }
+            
+            .logo-item {
+                max-width: 180px;
+            }
+            
+            .beneficiaries-wrapper {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: var(--primary);
+                flex-direction: column;
+                padding: 1rem 0;
+                box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .mobile-menu-toggle {
+                display: flex;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero .subtitle {
+                font-size: 1.2rem;
+            }
+            
+            .hero p {
+                font-size: 1.1rem;
+            }
+
+            .about-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .section {
+                padding: 60px 0;
+            }
+            
+            .activities-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            
+            .topics-grid {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                gap: 1.5rem;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                gap: 1.5rem;
+            }
+            
+            .partners-grid {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                gap: 1rem;
+            }
+            
+            .countries-grid {
+                grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+                gap: 1rem;
+            }
+            
+            .outcomes-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            
+            .sdg-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            
+            .logos-grid {
+                gap: 2rem;
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .logo-item {
+                max-width: 150px;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .hero .subtitle {
+                font-size: 1.1rem;
+            }
+            
+            .hero p {
+                font-size: 1rem;
+            }
+            
+            .section-title {
+                font-size: 1.8rem;
+            }
+            
+            .activity-card, .sdg-card, .topic-card, .outcome-card {
+                padding: 1.5rem;
+            }
+            
+            .cta-button {
+                padding: 12px 24px;
+                font-size: 0.9rem;
+            }
+            
+            .logo-item {
+                max-width: 120px;
+            }
+            
+            .logo-item img {
+                max-height: 60px;
+            }
+            
+            .stat-number {
+                font-size: 2.5rem;
+            }
+            
+            .workshop-icon {
+                font-size: 4rem;
+            }
+            
+            .country-flag {
+                font-size: 1.5rem;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in-up {
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        /* Scroll animations */
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+
+        .animate-on-scroll.animated {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Pulse animation for CTA */
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(242, 140, 40, 0.4);
+            }
+            70% {
+                box-shadow: 0 0 0 10px rgba(242, 140, 40, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(242, 140, 40, 0);
+            }
+        }
+
+        .cta-button {
+            animation: pulse 2s infinite;
+        }
+
+        /* Floating animation */
+        @keyframes floating {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+        }
+
+        .floating {
+            animation: floating 4s ease-in-out infinite;
+        }
+
+        /* Slide animations */
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .slide-in-left {
+            animation: slideInLeft 0.8s ease forwards;
+        }
+
+        .slide-in-right {
+            animation: slideInRight 0.8s ease forwards;
+        }
+
+        /* Campus network animation */
+        @keyframes campusNetworkPulse {
+            0%, 100% { 
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(242, 140, 40, 0.4);
+            }
+            50% { 
+                transform: scale(1.02);
+                box-shadow: 0 0 0 15px rgba(242, 140, 40, 0);
+            }
+        }
+
+        .campus-pulse {
+            animation: campusNetworkPulse 3s ease-in-out infinite;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="container">
+            <div class="logo">WCNOSM</div>
+            <ul class="nav-links">
+                <li><a href="#about">About</a></li>
+                <li><a href="#workshop">Workshop</a></li>
+                <li><a href="#stats">Statistics</a></li>
+                <li><a href="#activities">Activities</a></li>
+                <li><a href="#topics">Topics</a></li>
+                <li><a href="#beneficiaries">Beneficiaries</a></li>
+                <li><a href="#outcomes">Outcomes</a></li>
+                <li><a href="#partners">Partners</a></li>
+                <li><a href="#impact">Impact</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <div class="mobile-menu-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content fade-in-up">
+                <h1>WCNOSM</h1>
+                <div class="subtitle">Campus Network Operation & Security Management</div>
+                <p>Enhancing technical skills of campus network professionals through comprehensive hands-on training on network design, routing, security management, and cybersecurity best practices across developing countries.</p>
+                <a href="#about" class="cta-button">Explore Our Training</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="logos">
+        <div class="container">
+            <div class="logos-grid">
+                <div class="logo-item animate-on-scroll">
+                    <img src="images/logos/asia-connect-logo.png" alt="Asia Connect" />
+                </div>
+                <div class="logo-item animate-on-scroll">
+                    <img src="images/logos/eu-logo.png" alt="European Union" />
+                </div>
+                <div class="logo-item animate-on-scroll">
+                    <img src="images/logos/tein-logo.png" alt="TEIN Cooperation Center" />
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="section about">
+        <div class="container">
+            <h2 class="section-title animate-on-scroll">About WCNOSM</h2>
+            <div class="about-content">
+                <div class="about-text animate-on-scroll slide-in-left">
+                    <p>This project aimed to enhance the technical skills of campus network professionals in developing countries by conducting a five-day blended workshop on campus network operation and security management.</p>
+                    <p>It addressed real-world challenges faced by university IT staff and promoted best practices in network management and cybersecurity. Participants from Bangladesh and other TEIN partner countries benefited through hands-on training, collaborative forums, and industry-led sessions.</p>
+                </div>
+                <div class="highlight animate-on-scroll slide-in-right">
+                    <h3>Our Mission</h3>
+                    <p>To build the operational and cybersecurity capacities of NREN and university network engineers to ensure secure and sustainable campus network environments across TEIN partner countries.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="workshop" class="section workshop-focus">
+        <div class="container">
+            <h2 class="section-title animate-on-scroll">Workshop Focus</h2>
+            <div class="workshop-card animate-on-scroll floating campus-pulse">
+                <div class="workshop-icon">🏛️</div>
+                <h3>5-Day Blended Training Workshop</h3>
+                <p>Comprehensive hands-on training conducted in Barishal, Bangladesh covering campus network operations, security management, and cybersecurity best practices for university IT professionals.</p>
+                <div class="workshop-details">73 Participants • 5 Countries • April 03-07, 2021</div>
+            </div>
+        </div>
+    </section>
+
+    <section id="stats" class="section stats">
+        <div class="container">
+            <h2 class="section-title animate-on-scroll">Workshop Impact</h2>
+            <div class="stats-grid">
+                <div class="stat-card animate-on-scroll campus-pulse">
+                    <div class="stat-number">73</div>
+                    <div class="stat-label">Total Participants</div>
+                </div>
+                <div class="stat-card animate-on-scroll campus-pulse">
+                    <div class="stat-number">40</div>
+                    <div class="stat-label">Onsite Attendees</div>
+                </div>
+                <div class="stat-card animate-on-scroll campus-pulse">
+                    <div class="stat-number">33</div>
+                    <div class="stat-label">Virtual Participants</div>
+                </div>
+                <div class="stat-card animate-on-scroll campus-pulse">
+                    <div class="stat-number">5</div>
+                    <div class="stat-label">Countries Involved</div>
+                </div>
+                <div class="stat-card animate-on-scroll campus-pulse">
+                    <div class="stat-number">10</div>
+                    <div class="stat-label">Female Participants</div>
+                </div>
+                <div class="stat-card animate-on-scroll campus-pulse">
+                    <div class="stat-number">5</div>
+                    <div class="stat-label">Training Days</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="activities" class="section activities">
+        <div class="container">
+            <h2 class="section-title animate-on-scroll">Key Activities</h2>
+            <div class="activities-grid">
+                <div class="activity-card animate-on-scroll">
+                    <div class="activity-icon">🎓</div>
+                    <h3>Blended Training Workshop</h3>
+                    <p>Five-day intensive workshop in Barishal, Bangladesh with 73 participants covering comprehensive network operations and security modules.</p>
+                </div>
+                <div class="activity-card animate-on-scroll">
+                    <div class="activity-icon">⚗️</div>
+                    <h3>Technical Sessions and Labs</h3>
+                    <p>Hands-on configuration of FortiGate firewalls, JunOS, VLANs, routing (OSPF, BGP), wireless authentication, and monitoring tools.</p>
+                </div>
+                <div class="activity-card animate-on-scroll">
+                    <div class="activity-icon">🎉</div>
+                    <h3>Opening and Closing Ceremonies</h3>
+                    <p>Ceremonial events with welcome and certification sessions, featuring speeches from senior PSTU and BdREN officials.</p>
+                </div>
+                <div class="activity-card animate-on-scroll">
+                    <div class="activity-icon">🍽️</div>
+                    <h3>Social Dinner and Networking</h3>
+                    <p>Formal networking dinner at Hotel Grand Park enabling participants and trainers to build long-term collaborations.</p>
+                </div>
+                <div class="activity-card animate-on-scroll">
+                    <div class="activity-icon">🏛️</div>
+                    <h3>Site Visit</h3>
+                    <p>Participants visited Durga Sagor and local sites to contextualize ICT infrastructure and build rapport among trainees.</p>
+                </div>
+                <div class="activity-card animate-on-scroll">
+                    <div class="activity-icon">🎁</div>
+                    <h3>Training Kits and Health Safety</h3>
+                    <p>Branded materials including bags, notebooks, pens, t-shirts, and COVID-19 PPE provided to all onsite attendees.</p>
+                </div>
+                <div class="activity-card animate-on-scroll">
+                    <div class="activity-icon">📊</div>
+                    <h3>Participant Evaluation and Feedback</h3>
+                    <p>Comprehensive online feedback collection across six dimensions reporting high satisfaction with learning quality and facilities.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="topics" class="section topics">
+        <div class="container">
+            <h2 class="section-title animate-on-scroll">Technical Topics Covered</h2>
+            <div class="topics-grid">
+                <div class="topic-card animate-on-scroll">
+                    <div class="topic-icon">🛡️</div>
+                    <h3>FortiGate Firewalls</h3>
+                    <p>Configuration and management</p>
+                </div>
+                <div class="topic-card animate-on-scroll">
+                    <div class="topic-icon">🌐</div>
+                    <h3>JunOS</h3>
+                    <p>Juniper network operating system</p>
+                </div>
+                <div class="topic-card animate-on-scroll">
+                    <div class="topic-icon">🔗</div>
+                    <h3>VLANs</h3>
+                    <p>Virtual Local Area Networks</p>
+                </div>
+                <div class="topic-card animate-on-scroll">
+                    <div class="topic-icon">🛣️</div>
+                    <h3>OSPF Routing</h3>
+                    <p>Open Shortest Path First protocol</p>
+                </div>
+                <div class="topic-card animate-on-scroll">
+                    <div class="topic-icon">🔀</div>
+                    <h3>BGP Routing</h3>
+                    <p>Border Gateway Protocol</p>
+                </div>
+                <div class="topic-card animate-on-scroll">
+                    <div class="topic-icon">📶</div>
+                    <h3>Wireless Authentication</h3>
+                    <p>WiFi security and access control</p>
+                </div>
+                <div class="topic-card animate-on-scroll">
+                    <div class="topic-icon">📈</div>
+                    <h3>Cacti Monitoring</h3>
+                    <p>Network monitoring and graphing</p>
+                </div>
+                <div class="topic-card animate-on-scroll">
+                    <div class="topic-icon">💨</div>
+                    <h3>Smokeping</h3>
+                    <p>Network latency monitoring</p>
+                </div>
+                <div class="topic-card animate-on-scroll">
+                    <div class="topic-icon">🔒</div>
+                    <h3>Network Security</h3>
+                    <p>Campus security best practices</p>
+                </div>
+                <div class="topic-card animate-on-scroll">
+                    <div class="topic-icon">⚙️</div>
+                    <h3>Network Design</h3>
+                    <p>Campus network architecture</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="beneficiaries" class="section beneficiaries">
+        <div class="container">
+            <h2 class="section-title animate-on-scroll">Beneficiary Countries</h2>
+            <div class="beneficiaries-wrapper">
+                <div class="beneficiaries-info animate-on-scroll slide-in-left">
+                    <h3>Regional Coverage</h3>
+                    <p><strong>Host Country:</strong> Bangladesh</p>
+                    <p><strong>Beneficiary Countries:</strong> 5 TEIN partner nations</p>
+                    <p><strong>Focus:</strong> University IT staff and NREN engineers</p>
+                    <p>The workshop brought together campus network professionals from across the region, focusing on building operational and cybersecurity capacities for sustainable network environments in developing countries.</p>
+                </div>
+                <div class="countries-grid animate-on-scroll slide-in-right">
+                    <div class="country-card">
+                        <div class="country-flag">🇧🇩</div>
+                        <div class="country-name">Bangladesh</div>
+                    </div>
+                    <div class="country-card">
+                        <div class="country-flag">🇧🇹</div>
+                        <div class="country-name">Bhutan</div>
+                    </div>
+                    <div class="country-card">
+                        <div class="country-flag">🇱🇦</div>
+                        <div class="country-name">Laos</div>
+                    </div>
+                    <div class="country-card">
+                        <div class="country-flag">🇳🇵</div>
+                        <div class="country-name">Nepal</div>
+                    </div>
+                    <div class="country-card">
+                        <div class="country-flag">🇱🇰</div>
+                        <div class="country-name">Sri Lanka</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="outcomes" class="section outcomes">
+        <div class="container">
+            <h2 class="section-title animate-on-scroll">Key Outcomes</h2>
+            <div class="outcomes-grid">
+                <div class="outcome-card animate-on-scroll">
+                    <div class="outcome-icon">👨‍💻</div>
+                    <h3>Skilled Workforce</h3>
+                    <p>Trained 73 participants from universities and NRENs in advanced campus network technologies and security practices.</p>
+                </div>
+                <div class="outcome-card animate-on-scroll">
+                    <div class="outcome-icon">🔧</div>
+                    <h3>Knowledge Application</h3>
+                    <p>Participants applied learned configurations to improve network operations and security within their home institutions.</p>
+                </div>
+                <div class="outcome-card animate-on-scroll">
+                    <div class="outcome-icon">💬</div>
+                    <h3>Collaborative Platform</h3>
+                    <p>Created an active WhatsApp group for participants to share issues and get peer/mentor support post-workshop.</p>
+                </div>
+                <div class="outcome-card animate-on-scroll">
+                    <div class="outcome-icon">👩‍💻</div>
+                    <h3>Female Participation</h3>
+                    <p>Achieved 10 female participants despite regional gender gaps in ICT through targeted institutional outreach.</p>
+                </div>
+                <div class="outcome-card animate-on-scroll">
+                    <div class="outcome-icon">📺</div>
+                    <h3>Visibility and Documentation</h3>
+                    <p>Maintained web portal, social media posts, professional photography, and livestreams for awareness and resource sharing.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="partners" class="section partners">
+        <div class="container">
+            <h2 class="section-title animate-on-scroll">Partner Organizations</h2>
+            <div class="partners-grid">
+                <div class="partner-card animate-on-scroll">
+                    <h4>Patuakhali Science and Technology University</h4>
+                    <p>PSTU - Lead Implementation Partner</p>
+                </div>
+                <div class="partner-card animate-on-scroll">
+                    <h4>Bangladesh Research and Education Network</h4>
+                    <p>BdREN - Network Partner</p>
+                </div>
+                <div class="partner-card animate-on-scroll">
+                    <h4>Asi@Connect / TEIN*CC</h4>
+                    <p>Regional Coordination</p>
+                </div>
+                <div class="partner-card animate-on-scroll">
+                    <h4>Ministry of Education</h4>
+                    <p>Bangladesh - Government Partner</p>
+                </div>
+                <div class="partner-card animate-on-scroll">
+                    <h4>Fortinet Inc.</h4>
+                    <p>Bangladesh - Technology Partner</p>
+                </div>
+                <div class="partner-card animate-on-scroll">
+                    <h4>Spider Digital Security</h4>
+                    <p>Security Solutions Partner</p>
+                </div>
+                <div class="partner-card animate-on-scroll">
+                    <h4>Flora Telecom Limited</h4>
+                    <p>Telecommunications Partner</p>
+                </div>
+                <div class="partner-card animate-on-scroll">
+                    <h4>Smart Technologies (BD) Limited</h4>
+                    <p>Technology Solutions Partner</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="impact" class="section sdgs">
+        <div class="container">
+            <h2 class="section-title animate-on-scroll">Sustainable Development Goals</h2>
+            <div class="sdg-grid">
+                <div class="sdg-card animate-on-scroll">
+                    <div class="sdg-number">4</div>
+                    <h3>Quality Education</h3>
+                    <p>Enhancing technical education and capacity building for university network professionals across developing countries.</p>
+                </div>
+                <div class="sdg-card animate-on-scroll">
+                    <div class="sdg-number">9</div>
+                    <h3>Industry, Innovation and Infrastructure</h3>
+                    <p>Building resilient digital infrastructure through advanced campus network operations and security management training.</p>
+                </div>
+                <div class="sdg-card animate-on-scroll">
+                    <div class="sdg-number">17</div>
+                    <h3>Partnerships for the Goals</h3>
+                    <p>Strengthening international partnerships for sustainable development through cross-border technical collaboration and knowledge sharing.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer id="contact">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>WCNOSM Workshop</h3>
+                    <p>Workshop on Campus Network Operation and Security Management</p>
+                    <p>Category: WP2 - 4th Call</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <a href="#about">About</a>
+                    <a href="#workshop">Workshop</a>
+                    <a href="#stats">Statistics</a>
+                    <a href="#activities">Activities</a>
+                    <a href="#topics">Topics</a>
+                    <a href="#beneficiaries">Beneficiaries</a>
+                    <a href="#outcomes">Outcomes</a>
+                    <a href="#partners">Partners</a>
+                    <a href="#impact">Impact</a>
+                </div>
+                <div class="footer-section">
+                    <h3>Key Achievements</h3>
+                    <p>73 Participants Trained</p>
+                    <p>5 Countries Participated</p>
+                    <p>Campus Network Security Focus</p>
+                    <p>Industry Partnership Established</p>
+                </div>
+            </div>
+            <hr style="border: 1px solid rgba(255,255,255,0.2); margin: 2rem 0;">
+            <p>&copy; 2025 WCNOSM Workshop. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+        const navLinks = document.querySelector('.nav-links');
+
+        if (mobileMenuToggle) {
+            mobileMenuToggle.addEventListener('click', () => {
+                mobileMenuToggle.classList.toggle('active');
+                navLinks.classList.toggle('active');
+            });
+
+            // Close mobile menu when clicking on a link
+            document.querySelectorAll('.nav-links a').forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenuToggle.classList.remove('active');
+                    navLinks.classList.remove('active');
+                });
+            });
+        }
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Intersection Observer for scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animated');
+                }
+            });
+        }, observerOptions);
+
+        // Observe all elements with animate-on-scroll class
+        document.querySelectorAll('.animate-on-scroll').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Header background change on scroll
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('header');
+            if (window.scrollY > 100) {
+                header.style.background = 'rgba(242, 140, 40, 0.95)';
+                header.style.backdropFilter = 'blur(10px)';
+            } else {
+                header.style.background = 'linear-gradient(135deg, var(--primary), var(--secondary))';
+                header.style.backdropFilter = 'none';
+            }
+        });
+
+        // Stats counter animation
+        const animateCounters = () => {
+            const counters = document.querySelectorAll('.stat-number');
+            
+            counters.forEach(counter => {
+                const target = parseInt(counter.textContent.replace(/,/g, ''));
+                const duration = 2000;
+                const step = target / (duration / 16);
+                let current = 0;
+                
+                const updateCounter = () => {
+                    current += step;
+                    if (current < target) {
+                        counter.textContent = Math.floor(current).toLocaleString();
+                        requestAnimationFrame(updateCounter);
+                    } else {
+                        counter.textContent = target.toLocaleString();
+                    }
+                };
+                
+                updateCounter();
+            });
+        };
+
+        // Trigger counter animation when stats section is visible
+        const statsObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    animateCounters();
+                    statsObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.5 });
+
+        const statsSection = document.querySelector('.stats');
+        if (statsSection) {
+            statsObserver.observe(statsSection);
+        }
+
+        // Add staggered animation delays to cards
+        const addStaggeredAnimations = () => {
+            const cardGroups = [
+                '.activities-grid .activity-card',
+                '.topics-grid .topic-card',
+                '.outcomes-grid .outcome-card',
+                '.partners-grid .partner-card',
+                '.stats-grid .stat-card',
+                '.countries-grid .country-card'
+            ];
+
+            cardGroups.forEach(selector => {
+                const cards = document.querySelectorAll(selector);
+                cards.forEach((card, index) => {
+                    card.style.animationDelay = `${index * 0.05}s`;
+                });
+            });
+        };
+
+        // Initialize staggered animations when page loads
+        window.addEventListener('load', addStaggeredAnimations);
+
+        // Add parallax effect to hero section
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const hero = document.querySelector('.hero');
+            const rate = scrolled * -0.3;
+            
+            if (hero) {
+                hero.style.transform = `translateY(${rate}px)`;
+            }
+        });
+
+        // Add typing effect to hero title
+        const typeWriter = (element, text, delay = 80) => {
+            element.textContent = '';
+            let i = 0;
+            
+            const timer = setInterval(() => {
+                if (i < text.length) {
+                    element.textContent += text.charAt(i);
+                    i++;
+                } else {
+                    clearInterval(timer);
+                }
+            }, delay);
+        };
+
+        // Initialize typing effect
+        window.addEventListener('load', () => {
+            const heroTitle = document.querySelector('.hero h1');
+            if (heroTitle) {
+                const originalText = heroTitle.textContent;
+                setTimeout(() => {
+                    typeWriter(heroTitle, originalText, 150);
+                }, 500);
+            }
+        });
+
+        // Add campus network visualization effect
+        const createCampusNetworkEffect = () => {
+            const campusCards = document.querySelectorAll('.campus-pulse');
+            campusCards.forEach((card, index) => {
+                setTimeout(() => {
+                    card.style.transform = 'scale(1.03)';
+                    card.style.boxShadow = '0 0 25px rgba(242, 140, 40, 0.4)';
+                    setTimeout(() => {
+                        card.style.transform = 'scale(1)';
+                        card.style.boxShadow = '';
+                    }, 400);
+                }, index * 150);
+            });
+        };
+
+        // Trigger campus network effect when workshop section becomes visible
+        const campusObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    setTimeout(createCampusNetworkEffect, 1000);
+                    campusObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.3 });
+
+        const workshopSection = document.querySelector('.workshop-focus');
+        if (workshopSection) {
+            campusObserver.observe(workshopSection);
+        }
+
+        // Add dynamic gradient animation to hero
+        let gradientPosition = 0;
+        setInterval(() => {
+            gradientPosition += 0.3;
+            const hero = document.querySelector('.hero');
+            if (hero) {
+                hero.style.background = `linear-gradient(${135 + gradientPosition}deg, var(--primary) 0%, var(--secondary) 100%)`;
+            }
+        }, 100);
+
+        // Add interactive hover effects for activity cards
+        document.querySelectorAll('.activity-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-8px) scale(1.02)';
+                this.style.boxShadow = '0 15px 35px rgba(242, 140, 40, 0.2)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+                this.style.boxShadow = '0 5px 20px rgba(0,0,0,0.1)';
+            });
+        });
+    </script>
+</body>
+</html>
